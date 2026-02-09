@@ -1,140 +1,119 @@
-// Number Method
-
-// 1. Number Creation & Type casting
-
-console.log(10);
-
-const num1 = 10
-
-console.log(num1);
-
-const num2 = 3.14 
-
-console.log(num2);
-
-const num3 = 1.56e7
-
-console.log(num3);
-
-const num4 = 0xfff;
-
-console.log(num4);
-
-const num5 = parseInt("10")
-
-console.log(num5);
-
-const num6 = parseInt(10.20)
-
-console.log(num6);
-
-const num7 = parseFloat(10.20)
-
-console.log(num7);
-
-const num8 = Number("10")
-
-console.log(num8);
-
-let num9 = 456 // unary plus 
-
-console.log(num9++);
-console.log(num9);
-
-console.log((typeof num1));
-
-console.log(typeof num2);
-
-console.log(num1 * "str");
-
-console.log(typeof Infinity);
-
-console.log(typeof NaN);
- 
-{
-  console.log(Number.isFinite(45));
-  console.log(Number.isFinite(Infinity));
-  
-
-  console.log(Number.isFinite(NaN));
-  console.log(Number.isInteger(10));
-  console.log(Number.isInteger(10.20));
-
-  console.log(Number.isNaN(10 * "str"));
-
-  console.log(Number.isNaN(NaN));
-
-  console.log(Number.isNaN("Hello"));
-
-  console.log(Number.isSafeInteger(4500000000000000000000000000000));
-
-  {
-    // toFixed
-
-    const num = 12.5000
-
-    // const result = num.toFixed(0)
-    // const result = num.toFixed(1)
-    // const result = num.toFixed(2)
-
-    // console.log(result);
-    
-  }
-
-  {
-    // toString
-
-    const num = 125000
-
-    console.log(typeof num.toString());
-    
-  }
-
-  {
-    // toExponential
-
-    const num = 44600000
-
-    const result = num.toExponential(0)
-
-    console.log(result);
-    
-  }
-
-  {
-    // toPricision
-
-    const num = 456.566
-
-    const result = num.toPrecision(100)
-
-    console.log(result);
-    
-  }
-  
-  
-  
-  
-  
-  
-  
-
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// Timing Function
+
+// setTimeout()
+// setInterval()
+// clearTimeout()
+// clearInterval()
+
+// What is sync Javascript?
+
+// console.log("Hello World");
+// console.log("123");
+// function greek(){
+//   console.log("Javascript ES6");
+// }
+// document.getElementById("demo").textContent = "Hello Javascript"
+// greek();
+// console.log("sync javascript");
+
+// What is async Javascript?
+
+// setTimeout(() => {
+//   console.log("Hello World");
+// } , 5000)
+
+// setTimeout(() => {
+//   console.log("123");
+// } , 2000)
+
+// setTimeout(() => {
+//   function greek(){
+//     console.log("Javascript ES6");
+//   }
+//   greek()
+// } , 8000)
+
+// setTimeout(() => {
+//   document.getElementById("demo").textContent = "Hello Javascript"
+// } , 6000)
+
+// console.log("sync javascript");
+
+// setTimeout() - clearTimeout()
+
+// let count = 0;
+
+// function func1(){
+//   let timeoutID1 = setTimeout(() => {
+//     console.log("Hello World 1!!");
+//   } , 1000)
+// }
+
+// function func2(){
+//   let timeoutID2 = setTimeout(() => {
+//     console.log("Hello World 2!!");
+//   } , 1000)
+//   if(count > 5){
+//     clearTimeout(timeoutID2)
+//   }
+// }
+
+// function increment(){
+//   console.log("function call..");
+//   count += 1
+//   if(count < 5){
+//     func1()
+//   }else{
+//     func2()
+//   }
+//   console.log("Count" , count);
+// }
+
+// setInterval()
+
+// let count = 0;
+
+// let intervalID = setInterval(function incre(){
+//   count+=1;
+//   console.log("Count" , count);
+//   if(count >= 10){
+//     clearInterval(intervalID)
+//   }
+// }, 1000)
+
+// factory process
+
+setTimeout(() => {
+  console.log("1. Cultivation & Harvesting");
+  setTimeout(() => {
+    console.log("2. Processing");
+    setTimeout(() => {
+      console.log("3. Drying");
+      setTimeout(() => {
+        console.log("4. Milling & Sorting");
+        setTimeout(() => {
+          console.log("5. Roasting");
+          setTimeout(() => {
+            console.log("6. Grinding");
+            setTimeout(() => {
+              console.log("7. Measuring");
+              setTimeout(() => {
+                console.log("8. Heating Water");
+                setTimeout(() => {
+                  console.log("9. Brewing/Extraction");
+                  setTimeout(() => {
+                    console.log(
+                      "10. Pouring immediately to enjoy fresh Coffee. ",
+                    );
+                  }, 5000);
+                }, 5000);
+              }, 2000);
+            }, 3000);
+          }, 6000);
+        }, 1000);
+      }, 5000);
+    }, 1000);
+  }, 3000);
+}, 2000);
+
+// Promises in Javascript
