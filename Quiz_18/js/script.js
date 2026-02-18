@@ -1,0 +1,84 @@
+/* Quiz App */
+
+/* Questions and Answers Array */
+
+const Questions = [
+  {
+    question: "Which keyword is used to decalre a variable in javascript?",
+    options: ["var", "int", "string", "define"],
+    answer: 0,
+  },
+  {
+    question: "Which method convert JSON to a javascript object?",
+    options: [
+      "JSON.parse()",
+      "JSON.stringify()",
+      "JSON.convert()",
+      "JSON.object()",
+    ],
+    answer: 0,
+  },
+  {
+    question: "Which function runs after a delay?",
+    options: ["setInterval()", "setTimeout()", "wait()", "delay()"],
+    answer: 1,
+  },
+  {
+    question: "Which function runs after a delay?",
+    options: ["setInterval()", "setTimeout()", "delay()", "wait()"],
+    answer: 1,
+  },
+  {
+    question: "Which array method adda item to the end?",
+    options: ["push()", "pop()", "shift()", "unshift()"],
+    answer: 0,
+  },
+];
+
+let timeRemaining = 300;
+let currentQuestion = 0;
+let startTime;
+let selectedAnswer = null;
+let score  = 0;
+let timerInterval;
+
+
+// Dom Elements
+
+const quizBody = document.getElementById('quizBody')
+const questionCounter = document.getElementById('questionCounter')
+const nextBtn  = document.getElementById('nextBtn')
+const progressBar = document.getElementById('progressBar')
+const timer = document.getElementById('timer')
+const resultContainer = document.getElementById('resultsContainer')
+const quizFooter = document.getElementById('quizFooter')
+const restartBtn = document.getElementById('restartBtn')
+
+// start app
+
+const initilizeQuizApp = () => {
+
+  // timer function
+
+  startTimer()
+  
+}
+
+const startTimer = () => {
+    clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+      timeRemaining--;
+      updateTimerDisplay();
+
+      if(timeRemaining <= 0){
+        clearInterval(timerInterval);
+      }
+    } , 1000)
+}
+
+const updateTimerDisplay = () => {
+  const minutes = Math.floor(timeRemaining / 60)
+  const seconds = timeRemaining % 60;
+  timer.textContent = `${minutes.toString().padStart(2 , '0')} : ${seconds.toString().padStart(2,  '0')}`
+}
+
