@@ -44,9 +44,9 @@
 
   <!-- Hero Section -->
 
-  <div class="hero-section text-white text-center py-5">
-    <div class="container">
-      <h1 class="display-4">Welcome to ShopEasy</h1>
+  <div class="hero-section text-white text-center">
+    <div class="container p-5">
+      <h1 class="display-4 p-5">Welcome to ShopEasy</h1>
       <p class="lead">Your one-stop for amazing products</p>
     </div>
   </div>
@@ -56,23 +56,29 @@
   <section>
     <div class="container py-5">
       <div class="row align-items-center">
-        <div class="col">
-          <input class="form-control" type="search" name="" id="">
+        <div class="col input-group border align-items-center rounded">
+          <span>
+            <i class="bi bi-search"></i>
+          </span>
+          <input class="form-control border-0" type="search" name="search-input" placeholder="Search Product" value="" id="search-input">
         </div>
         <div class="col">
-          <select class="form-select" aria-label="Default select example">
-            <option selected>Open this select menu</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
+          <select class="form-select" aria-label="Default select example" id="category-filter">
+            <option selected>Categories</option>
+            <option value="1">Electronics</option>
+            <option value="2">Clothing</option>
+            <option value="3">Home</option>
+            <option value="4">Sports</option>
+            <option value="5">Accessories</option>
+            <option value="6">Books</option>
           </select>
         </div>
         <div class="col">
-          <select class="form-select" aria-label="Default select example">
-            <option selected>Open this select menu</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
+          <select class="form-select" aria-label="Default select example" id="sort-filter">
+            <option selected>Short By</option>
+            <option value="1">Price : Low to High</option>
+            <option value="2">Price : High to Low</option>
+            <option value="3">Name : A to Z</option>
           </select>
         </div>
       </div>
@@ -96,8 +102,8 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
     crossorigin="anonymous"></script>
-  <script src="./js/script.js"></script>
-  <script src="./js/products.js"></script>
+  <script type="module" src="./js/script.mjs"></script>
+  <script type="module" src="./js/products.mjs"></script>
 </body>
 
 </html>

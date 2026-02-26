@@ -55,8 +55,6 @@ const products = [
         description: "Complete guide to modern JavaScript",
         stock: 30
     },
-
-
     {
         id: 7,
         name: "Stainless Steel Water Bottle",
@@ -119,7 +117,7 @@ const initializeProducts = () => {
   }
 }
 
-const getProducts = () => {
+export const getProducts = () => {
   const storedProducts = localStorage.getItem('products')
   return storedProducts ? JSON.parse(storedProducts) : products
 }
