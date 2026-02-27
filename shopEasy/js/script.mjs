@@ -1,14 +1,14 @@
 import {getProducts} from './products.mjs'
 
-const displayProducts = (productToDispaly) => {
+const displayProducts = (productToDisplay) => {
 
   const container = document.getElementById("products_container");
 
-  console.log('productToDispaly' , productToDispaly);
+  console.log('productToDispaly' , productToDisplay);
   
   if (!container) return;
 
-  if (productToDispaly.length === 0) {
+  if (productToDisplay.length === 0) {
     container.innerHTML = `
      <div class="col-12">
         <div>
@@ -24,11 +24,11 @@ const displayProducts = (productToDispaly) => {
     return;
   }
 
-  container.innerHTML = productToDispaly.map((p) => {
+  container.innerHTML = productToDisplay.map((p) => {
     return `
     <div class="col py-4">
       <div class="card" style="width: 18rem;">
-        <img src=${p.image} class="card-img-top" alt="...">
+        <img src=${p.image} class="card-img-top" alt="product image">
         <div class="card-body">
           <h5 class="card-title text-truncate">${p.name}</h5>
           <p class="card-text text-truncate">${p.description}</p>
@@ -39,8 +39,8 @@ const displayProducts = (productToDispaly) => {
         </div>
       </div>
     </div>
-  `;
-  });
+  `
+  }).join('');
 };
 
 // filter
@@ -72,22 +72,26 @@ const filterProducts = () => {
   switch(sortby){
     case 'price-low':
       products.sort((a , b) => a.price - b.price)
-    
+    break
     case 'price-high':
       products.sort((a , b) => b.price - a.price)
-
+    break
     case 'name':
-      products.sort((a , b) => a.name.localCompare(b.name))
-
+      products.sort((a , b) => a.name.localeCompare(b.name))
     }
-  
-    displayProducts(products);
 
+    displayProducts(products)
+  
   }
 
-  
-  filterProducts()
+  document.addEventListener('DOMContentLoaded' , function(){
 
-  document.addEventListener('click' , )
 
-displayProducts(getProducts());
+    displayProducts(getProducts())
+
+    document.getElementById('search-input')?.addEventListener('input' , filterProducts)
+    document.getElementById('category-filter')?.addEventListener('change' , filterProducts)
+    document.getElementById('sort-filter')?.addEventListener('change' , filterProducts)
+
+  })
+

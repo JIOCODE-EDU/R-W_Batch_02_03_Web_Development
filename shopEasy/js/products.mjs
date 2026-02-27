@@ -26,8 +26,6 @@ const products = [
         description: "Professional leather bag for 15-inch laptops",
         stock: 20
     },
-
-
     {
         id: 4,
         name: "Cotton T-Shirt (Pack of 3)",

@@ -9,7 +9,7 @@ background: linear-gradient(180deg, rgba(89, 85, 173, 1) 0%, rgba(9, 9, 121, 1) 
 
 .navbar{
   width: 100% !important;
-  background-color: #5955ad;
+  background-color: gray;
   z-index: 100;
 }
 
