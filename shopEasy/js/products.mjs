@@ -120,7 +120,7 @@ export const getProducts = () => {
   return storedProducts ? JSON.parse(storedProducts) : products
 }
 
-const getProductById = (id) => {
+export const getProductById = (id) => {
   const products = getProducts();
   return products.find((p) => p.id === id)
 }

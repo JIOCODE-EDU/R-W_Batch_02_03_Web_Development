@@ -16,3 +16,7 @@ background: linear-gradient(180deg, rgba(89, 85, 173, 1) 0%, rgba(9, 9, 121, 1) 
 .form-control:focus{
   box-shadow: none;
 }
+
+.toast-notification{
+  
+}
