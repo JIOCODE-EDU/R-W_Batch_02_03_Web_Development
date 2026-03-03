@@ -1,5 +1,4 @@
 import { getProducts } from "./products.mjs";
-import { getCart } from "./cart.mjs";
 import { getProductById } from "./products.mjs";
 
 const displayProducts = (productToDisplay) => {
@@ -12,37 +11,38 @@ const displayProducts = (productToDisplay) => {
   if (productToDisplay.length === 0) {
     container.innerHTML = `
      <div class="col-12">
-        <div>
-        <span>
-        <i class="bi bi-search"></i>
-        </span>
-        <h3>No Products Found.</h3>
-        <p>Try adjusting your search or filter</p>
+        <div class="empty-state">
+          <span><i class="bi bi-search"></i></span>
+          <h3>No Products Found.</h3>
+          <p>Try adjusting your search or filter</p>
         </div>
      </div>
     `;
-
     return;
   }
 
   container.innerHTML = productToDisplay
-    .map((p) => {
-      return `
+    .map(
+      (p) =>
+        `
     <div class="col py-4">
-      <div class="card" style="width: 18rem;">
+      <div class="card p-2" style="width: 18rem;">
         <img src=${p.image} class="card-img-top" alt="product image">
         <div class="card-body">
           <h5 class="card-title text-truncate">${p.name}</h5>
           <p class="card-text text-truncate">${p.description}</p>
-          <p class="card-text">$${p.price}</p>
+          <p class="card-text">$${p.price.toFixed(2)}</p>
         </div>
-        <div class="card-body">
-          <button id="addtocart" class="btn btn-primary">AddToCart</button>
+        <div class="">
+        <span class="stock-badge ${getStockClass(p.stock)}">${getStockText(p.stock)}</span>
+        <div>
+          <button class="btn-add-to-cart rounded p-2 w-100 mt-2" data-id=${p.id} ${p.stock === 0 ? "disabled" : ""}>Add To Cart</button>
+        </div>
         </div>
       </div>
     </div>
-  `;
-    })
+  `,
+    )
     .join("");
 };
 
@@ -62,12 +62,26 @@ const getStockClass = (stock) => {
   return "in-stock";
 };
 
-// addToCart
+// get cart in session storage
+
+const getCart = () => {
+  const cart = sessionStorage.getItem("cart")
+  return cart ? JSON.parse(cart) : []
+}
+
+// save cart in session storage
+
+const saveCart = (cart) => {
+  sessionStorage.setItem("cart" , JSON.stringify(cart))
+}
+
+// addToCart Function
 
 const addToCart = (productId) => {
-  console.log("cart function called");
 
   const product = getProductById(productId);
+
+  console.log("Cartproduct", product);
 
   if (!product) {
     showToast("Error", "Product not found", "danger");
@@ -82,16 +96,33 @@ const addToCart = (productId) => {
     );
   }
 
-  const cart = getCart();
-
+  const cart = [getCart()];
+  
   const existingItem = cart.find((item) => item.id === productId);
 
+  console.log('existingItem');
+  
   if (existingItem) {
-    if (existingItem.quantity) {
+    if (existingItem.quantity < product.stock) {
       existingItem.quantity++;
-      showToast();
+      showToast("Success", "Product quantity updated in cart", "success");
+    } else {
+      showToast("Error", "Maximum quantity reached for this product", "danger");
+      return;
     }
+  } else {
+    cart.push({
+      id:productId,
+      name:product.name,
+      price:product.price,
+      image:product.image,
+      quantity:1,
+      maxStock:product.stock
+    })
+    showToast("Added to Cart", `${product.name} added to cart` , "success")
   }
+
+  saveCart(product)
 };
 
 // filter
@@ -137,24 +168,6 @@ const filterProducts = () => {
   displayProducts(products);
 };
 
-document.addEventListener("DOMContentLoaded", function () {
-  displayProducts(getProducts());
-
-  addToCart();
-
-  document
-    .getElementById("search-input")
-    ?.addEventListener("input", filterProducts);
-  document
-    .getElementById("category-filter")
-    ?.addEventListener("change", filterProducts);
-  document
-    .getElementById("sort-filter")
-    ?.addEventListener("change", filterProducts);
-
-    document.getElementById('addtocart').addEventListener('click' , addToCart)
-});
-
 // show toast
 
 const showToast = (title, message, type = "info") => {
@@ -177,14 +190,14 @@ const showToast = (title, message, type = "info") => {
 
   toast.className = "toast-notification";
   toast.innerHTML = `
-    <div class="d-flex align-items-center">
-      <span>${icon[type]}</span>
+  <div class="d-flex align-items-center">
+  <span>${icon[type]}</span>
       <div>
-        <strong>${title}</strong>
-        <div>${message}</div>
+      <strong>${title}</strong>
+      <div>${message}</div>
       </div>
-    </div>
-    `;
+      </div>
+      `;
 
   document.body.appendChild(toast);
 
@@ -194,3 +207,24 @@ const showToast = (title, message, type = "info") => {
     setTimeout(() => toast.remove(), 300);
   }, 3000);
 };
+
+document.addEventListener("DOMContentLoaded", function () {
+  displayProducts(getProducts());
+
+  document
+    .getElementById("search-input")
+    ?.addEventListener("input", filterProducts);
+  document
+    .getElementById("category-filter")
+    ?.addEventListener("change", filterProducts);
+  document
+    .getElementById("sort-filter")
+    ?.addEventListener("change", filterProducts);
+
+  document.querySelectorAll(".btn-add-to-cart").forEach((btn) => {
+    btn.addEventListener("click" , function(){
+      const id = Number(this.getAttribute("data-id"))
+      addToCart(id)      
+    })
+  })
+});
