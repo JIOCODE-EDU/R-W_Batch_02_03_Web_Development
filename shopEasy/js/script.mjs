@@ -2,9 +2,8 @@ import { getProducts } from "./products.mjs";
 import { getProductById } from "./products.mjs";
 
 const displayProducts = (productToDisplay) => {
-  const container = document.getElementById("products_container");
 
-  console.log("productToDispaly", productToDisplay);
+  const container = document.getElementById("products_container");
 
   if (!container) return;
 
@@ -64,21 +63,20 @@ const getStockClass = (stock) => {
 
 // get cart in session storage
 
-const getCart = () => {
-  const cart = sessionStorage.getItem("cart")
-  return cart ? JSON.parse(cart) : []
-}
+export const getCart = () => {
+  const cart = sessionStorage.getItem("cart");
+  return cart ? JSON.parse(cart) : [];
+};
 
 // save cart in session storage
 
-const saveCart = (cart) => {
-  sessionStorage.setItem("cart" , JSON.stringify(cart))
-}
+export const saveCart = (cart) => {
+  sessionStorage.setItem("cart", JSON.stringify(cart));
+};
 
 // addToCart Function
 
 const addToCart = (productId) => {
-
   const product = getProductById(productId);
 
   console.log("Cartproduct", product);
@@ -96,12 +94,12 @@ const addToCart = (productId) => {
     );
   }
 
-  const cart = [getCart()];
-  
+  const cart = getCart();
+
   const existingItem = cart.find((item) => item.id === productId);
 
-  console.log('existingItem');
-  
+  console.log("existingItem");
+
   if (existingItem) {
     if (existingItem.quantity < product.stock) {
       existingItem.quantity++;
@@ -112,17 +110,17 @@ const addToCart = (productId) => {
     }
   } else {
     cart.push({
-      id:productId,
-      name:product.name,
-      price:product.price,
-      image:product.image,
-      quantity:1,
-      maxStock:product.stock
-    })
-    showToast("Added to Cart", `${product.name} added to cart` , "success")
+      id: productId,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      quantity: 1,
+      maxStock: product.stock,
+    });
+    showToast("Added to Cart", `${product.name} added to cart`, "success");
   }
 
-  saveCart(product)
+  saveCart(cart);
 };
 
 // filter
@@ -170,7 +168,7 @@ const filterProducts = () => {
 
 // show toast
 
-const showToast = (title, message, type = "info") => {
+export const showToast = (title, message, type = "info") => {
   // remove toast
 
   const existingToast = document.querySelector(".toast-notification");
@@ -221,10 +219,10 @@ document.addEventListener("DOMContentLoaded", function () {
     .getElementById("sort-filter")
     ?.addEventListener("change", filterProducts);
 
-  document.querySelectorAll(".btn-add-to-cart").forEach((btn) => {
-    btn.addEventListener("click" , function(){
-      const id = Number(this.getAttribute("data-id"))
-      addToCart(id)      
-    })
-  })
+  document.addEventListener("click", function (e) {
+    if (e.target.classList.contains("btn-add-to-cart")) {
+      const id = Number(e.target.getAttribute("data-id"));
+      addToCart(id);
+    }
+  });
 });
