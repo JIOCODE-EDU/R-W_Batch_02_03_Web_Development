@@ -1,5 +1,4 @@
-import { getCart, saveCart , showToast } from "./script.mjs";
-
+import { getCart, saveCart, showToast } from "./script.mjs";
 
 const updateCartCount = () => {
   const cart = getCart();
@@ -14,13 +13,55 @@ const updateCartCount = () => {
 // remove cart
 
 const removeFormCart = (productId) => {
-  if(confirm("Are you sure want to remove this item?")){
-    let cart = getCart()
-    cart = cart.filter((item) => item.id !== productId)
-    saveCart(cart)
-    displayCart()
-    showToast("Remove" , "Item Removed form Cart" , "info")
+  if (confirm("Are you sure want to remove this item?")) {
+    let cart = getCart();
+    cart = cart.filter((item) => item.id !== productId);
+    saveCart(cart);
+    displayCart();
+    showToast("Remove", "Item Removed form Cart", "info");
   }
+};
+
+// increment decrement cart
+
+const incrementQuantity = (productId) => {
+  const cart = getCart();
+
+  const item = cart.find((item) => item.id === productId);
+
+  if (item) {
+    if (item.quantity < item.maxStock) {
+      item.quantity++;
+      saveCart(cart);
+      displayCart();
+      showToast("updated", "Quantity incresed", "success");
+    } else {
+      showToast("Stock limit", "Maximum stock reached", "warning");
+    }
+  }
+};
+
+const decreaseQuantity = (productId) => {
+  const cart = getCart();
+
+  const item = cart.find((item) => item.id === productId);
+
+  if (item) {
+    if (item.quantity > 1) {
+      item.quantity--;
+      saveCart(cart);
+      displayCart();
+      showToast("updated", "Quantity decresed", "success");
+    } else {
+      removeFormCart(productId);
+    }
+  }
+};
+
+// updatecartsummary task
+
+const updateCartSummary = () => {
+  
 }
 
 const displayCart = () => {
@@ -51,11 +92,11 @@ const displayCart = () => {
       </div>
         <h5 class="card-title">${p.name}</h5>
         <div class="d-flex align-items-center">
-          <button class="quantity_btn rounded-circle bg-primary text-white">-</button>
+          <button id="decrement_q" data-id=${p.id} class="quantity_decrement_btn rounded-circle bg-primary text-white">-</button>
           <span class="px-3 fw-bold fs-5">${p.quantity}</span>
-          <button class="quantity_btn rounded-circle bg-primary text-white">+</button>
+          <button id="increment_q" data-id=${p.id} class="quantity_increment_btn rounded-circle bg-primary text-white">+</button>
         </div>
-        <p class="card-text">$${p.price.toFixed(2)}</p>
+        <p class="card-text">$${(p.price * p.quantity).toFixed(2)}</p>
         <div>
         <button data-id="${p.id}" class="btn-remove-to-cart rounded p-2 w-100"}>Remove</button>
         </div>
@@ -70,9 +111,27 @@ const displayCart = () => {
 
 displayCart();
 
- document.addEventListener("click", function (e) {
+document.addEventListener("DOMContentLoaded", function () {
+
+  document.addEventListener("click", function (e) {
+    if (e.target.classList.contains("quantity_increment_btn")) {
+      const id = Number(e.target.getAttribute("data-id"));
+      incrementQuantity(id)
+    }
+  });
+
+   document.addEventListener("click", function (e) {
+    if (e.target.classList.contains("quantity_decrement_btn")) {
+      const id = Number(e.target.getAttribute("data-id"));
+      decreaseQuantity(id)
+    }
+  });
+
+
+  document.addEventListener("click", function (e) {
     if (e.target.classList.contains("btn-remove-to-cart")) {
       const id = Number(e.target.getAttribute("data-id"));
       removeFormCart(id);
     }
   });
+});
