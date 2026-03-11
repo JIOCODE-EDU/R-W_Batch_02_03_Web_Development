@@ -10,7 +10,7 @@ const updateCartCount = () => {
   console.log("totalItemsCart", totalItems);
 };
 
-// remove cart
+// Remove Cart
 
 const removeFormCart = (productId) => {
   if (confirm("Are you sure want to remove this item?")) {
