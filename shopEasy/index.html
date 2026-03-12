@@ -36,15 +36,15 @@
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="./cart.html" target="_self">Cart</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#" id="username-display"></a>
-            </li>
             <li class="nav-item" id="logout-btn">
               <a class="nav-link active" aria-current="page" href="#">Logout</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" id="login-btn">
               <a class="nav-link active" aria-current="page" href="#" class="btn btn-primary"
-                data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Login</a>
+              data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active bg-warning" aria-current="page" href="#" id="username-display"></a>
             </li>
           </ul>
         </div>
@@ -118,7 +118,7 @@
 
   <!-- login and register model -->
 
-  <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+  <div class="modal fade" id="exampleModalToggle loginModel" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
     tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">

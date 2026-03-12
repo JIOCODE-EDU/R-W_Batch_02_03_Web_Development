@@ -285,3 +285,7 @@ select {
     width: 25px;
     border:none;
 }
+
+.hidden{
+    display: none;
+}

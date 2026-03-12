@@ -1,77 +1,97 @@
 import { getProducts } from "./products.mjs";
 import { getProductById } from "./products.mjs";
 
-
 // User Session Check For Authentication
-
 
 const isUserLoggedIn = () => {
   return sessionStorage.getItem("currentUser") !== null;
-}
+};
 
-// setCurrentUser
+// register
 
-const setCurrentUser = () => {
-  console.log("you have sucessfully login.");
+const registerUser = () => {
+  let username = document.getElementById("formGroupExample_Input").value;
+  let password = document.getElementById("formGroupExample_Input2").value;
 
-  let username = document.getElementById("formGroupExample_Input").value
-  let password = document.getElementById("formGroupExample_Input2").value
-
-  let newUser = {
-    username:username,
-    password:password
+  if (!username || !password) {
+    showToast("error", "All Field are required.", "danger");
+    return;
   }
 
-  sessionStorage.setItem("currentUser" , JSON.stringify(newUser))
-}
+  let newUser = { username, password };
 
+  localStorage.setItem("user", JSON.stringify(newUser));
+};
+
+// login
+
+const loginUser = () => {
+
+  let username = document.getElementById("formGroupExampleInput").value;
+  let password = document.getElementById("formGroupExampleInput2").value;
+
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+
+  if (!storedUser) {
+    showToast("error", "User not registerd", "danger");
+  }
+
+  if (storedUser.username === username && storedUser.password === password) {
+    sessionStorage.setItem("currentUser", JSON.stringify(storedUser));
+    showToast("Sucess", "Login Successful", "success");
+    location.reload();
+   
+  } else {
+    showToast("Error", "Invalid crediantial", "danger");
+  }
+  
+};
 
 // getCurrentUser
 
 const getCurrentUser = () => {
-  const userData = sessionStorage.getItem("currentUser")
-  return userData ? JSON.parse(userData) : null
-}
+  const userData = sessionStorage.getItem("currentUser");
+  return userData ? JSON.parse(userData) : null;
+};
 
 // Logout User
 
 const logoutUser = () => {
-  sessionStorage.removeItem("currentUser")
-  sessionStorage.removeItem("cart")
-  window.location.href = 'index.html'
-}
+  sessionStorage.removeItem("currentUser");
+  sessionStorage.removeItem("cart");
+  window.location.href = "index.html";
+};
 
 // UI Update based on user login status
 
 const updateUserUI = () => {
-  const user = getCurrentUser()
+
+  const user = getCurrentUser();
 
   const usernameDisplay = document.getElementById("username-display");
 
-  const logoutBtn = document.getElementById("logout-btn")
+  const logoutBtn = document.getElementById("logout-btn");
+  const loginBtn = document.getElementById("login-btn");
 
-  if(user){
-    usernameDisplay.textContent = user.username
-    logoutBtn.style.display = 'inline-block'
-  }else{
-    usernameDisplay.textContent = "Guest"
-    logoutBtn.style.display = "none"
-    window.location.href = "index.html"
+  if (user) {
+    usernameDisplay.textContent = user.username;
+    logoutBtn.style.display = "inline-block";
+    loginBtn.style.display = "none";
+  } else {
+    usernameDisplay.textContent = "Guest";
+    logoutBtn.style.display = "none";
   }
-}
-
+};
 
 // Handle Logout
 
-document.getElementById('logout-btn').addEventListener("click" , () => {
-  if(confirm("Are you sure you want to logout?")){
-    logoutUser()
+document.getElementById("logout-btn").addEventListener("click", () => {
+  if (confirm("Are you sure you want to logout?")) {
+    logoutUser();
   }
-})
-
+});
 
 const displayProducts = (productToDisplay) => {
-
   const container = document.getElementById("products_container");
 
   if (!container) return;
@@ -146,6 +166,18 @@ export const saveCart = (cart) => {
 // addToCart Function
 
 const addToCart = (productId) => {
+
+  if(!isUserLoggedIn()){
+    showToast("Erorr" , "Login Required" , "warning")
+
+    const loginModel = new Bootstrap.Model(
+      document.getElementById("loginModel")
+    )
+
+    loginModel.show()
+
+    return;
+  }
   const product = getProductById(productId);
 
   console.log("Cartproduct", product);
@@ -276,7 +308,10 @@ export const showToast = (title, message, type = "info") => {
 };
 
 document.addEventListener("DOMContentLoaded", function () {
+
   displayProducts(getProducts());
+
+  updateUserUI();
 
   document
     .getElementById("search-input")
@@ -288,13 +323,17 @@ document.addEventListener("DOMContentLoaded", function () {
     .getElementById("sort-filter")
     ?.addEventListener("change", filterProducts);
 
-  document.getElementById("register_btn").addEventListener("click" , () => {
-    setCurrentUser()
-  })
+  document.getElementById("login_btn").addEventListener("click", () => {
+    loginUser();
+  });
 
-  document.getElementById("logout-btn").addEventListener("click" , () => {
-    logoutUser()
-  })
+  document.getElementById("register_btn").addEventListener("click", () => {
+    registerUser();
+  });
+
+  document.getElementById("logout-btn").addEventListener("click", () => {
+    logoutUser();
+  });
 
   document.addEventListener("click", function (e) {
     if (e.target.classList.contains("btn-add-to-cart")) {
