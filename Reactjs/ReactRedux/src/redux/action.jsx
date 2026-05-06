@@ -1,19 +1,39 @@
-import { INCREMENT , DECREMENT , RESET } from "./constant";
+// import { INCREMENT , DECREMENT , RESET } from "./constant";
 
-export const increment = () => {
+// export const increment = () => {
+//   return {
+//     type:INCREMENT
+//   }
+// }
+
+// export const decrement = () => {
+//   return {
+//     type:DECREMENT
+//   }
+// }
+
+// export const reset = () => {
+//   return {
+//     type:RESET
+//   }
+// }
+
+import { BUY_CHOCOLATE , BUY_ICECREAM , BUY_CAKE } from "./constant";
+
+export const buyChocolate = () => {
   return {
-    type:INCREMENT
+    type:BUY_CHOCOLATE
   }
 }
 
-export const decrement = () => {
+export const buyIceCream = () => {
   return {
-    type:DECREMENT
+    type:BUY_ICECREAM
   }
-}
+} 
 
-export const reset = () => {
+export const buyCake = () => {
   return {
-    type:RESET
+    type:BUY_CAKE
   }
 }
